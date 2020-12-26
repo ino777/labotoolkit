@@ -1,0 +1,155 @@
+#content {
+    width: 80%;
+    min-width: 650px;
+    margin: 0 auto;
+    border: solid 1px gray;
+    padding: 30px;
+}
+
+/* Delete radio button for tab items */
+input[name="tab-item"] {
+    display: none;
+}
+
+.tab-item {
+    padding: 10px 10px 0px 10px;
+    border: solid 0.5px gray;
+}
+
+.tab-item:hover{
+    cursor: pointer;
+}
+
+.tab-panel {
+    display: none;
+}
+
+/* Display a content for the selected tab */
+#tab-basic:checked ~ .panel-area #panel-basic,
+#tab-greek:checked ~ .panel-area #panel-greek,
+#tab-accent:checked ~ .panel-area #panel-accent,
+#tab-arrow:checked ~ .panel-area #panel-arrow,
+#tab-set:checked ~ .panel-area #panel-set,
+#tab-matrix:checked ~ .panel-area #panel-matrix,
+#tab-analysis:checked ~ .panel-area #panel-analysis,
+#tab-quantum:checked ~ .panel-area #panel-quantum{
+    display: block;
+}
+
+
+/* Style for the selected tab */
+#components input:checked + .tab-item {
+    background-color: rgb(247, 247, 247);
+    font-weight: bold;
+}
+
+.panel-area {
+    padding: 10px 5px 5px 5px;
+    border: solid 0.5px gray;
+    min-width: 650px;
+    background-color:rgb(247, 247, 247);
+    display: inline-block;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cpn-btn {
+    border: solid 0.5px gray;
+    margin: 1px;
+}
+
+#panel-basic .cpn-btn {
+    max-width: 40px;
+    height: auto;
+}
+#panel-greek .cpn-btn {
+    max-width: 30px;
+    height: auto;
+}
+
+#panel-accent .cpn-btn {
+    max-width: 40px;
+    height: auto;
+}
+
+#panel-arrow .cpn-btn {
+    max-width: 40px;
+    height: auto;
+}
+
+
+#panel-set .cpn-btn {
+    max-width: 40px;
+    height: auto;
+}
+
+#panel-matrix .cpn-btn {
+    max-width: 70px;
+    height: auto;
+}
+
+#panel-analysis .cpn-btn {
+    max-width: 60px;
+    height: auto;
+}
+
+#panel-quantum .cpn-btn {
+    max-width: 50px;
+    height: auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+#fomula-output {
+    font-size: 22px;
+}
+
+#image-download-input-form {
+    display: flex;
+}
+
+#image-download-input-form div {
+    margin: 20px;
+}
+
+#fontsize-input {
+    width:50px;
+    height: 25px;
+}
+
+#format-select {
+    width: 80px;
+    height: 25px;
+}
+
+#format-select option {
+    height: 400px;
+}
+
+#image-download{
+    margin-top: 15px;
+}
+
+#img-download-btn {
+    width:140px;
+    height: 40px;
+    text-align: center;
+    text-decoration:none;
+    color: #fff;
+    background: #707070;
+}
+
+#img-download-btn:hover{
+    background: #3a3a3a;
+}
+
+#img-download-btn:active{
+    box-shadow: none;
+    transform: translate3d(0, 2px, 0);
+}

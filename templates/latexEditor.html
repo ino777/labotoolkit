@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Latex editor</title>
+    <style>
+        textarea {
+            font-family: Verdana, Arial, sans-serif;
+        }
+    </style>
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"></script>
+    <script>
+        // This disabled to show error messages
+        MathJax = {
+            loader: { load: ['[tex]/noerrors', 'output/svg'] },
+            tex: {
+                packages: { '[+]': ['noerrors'] },
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                scale: 1,                      // global scaling factor for all expressions
+                mtextInheritFont: false,       // true to make mtext elements use surrounding font
+                merrorInheritFont: true,       // true to make merror text use surrounding font
+                mathmlSpacing: false,          // true for MathML spacing rules, false for TeX rules
+                skipAttributes: {},            // RFDa and other attributes NOT to copy to the output
+                exFactor: .1,                  // default size of ex in em units
+                displayAlign: 'center',        // default for indentalign when set to 'auto'
+                displayIndent: '0',            // default for indentshift when set to 'auto'
+                fontCache: 'local',            // or 'global' or 'none'
+                localID: null,                 // ID to use for local font cache (for single equation processing)
+                internalSpeechTitles: true,    // insert <title> tags with speech content
+                titleID: 0,                     // initial id number to use for aria-labeledby titles
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1>$\LaTeX$ editor</h1>
+        <div id="content">
+            <div id="components">
+                <!-- Components -->
+                <input id="tab-basic" type="radio" name="tab-item" checked>
+                <label class="tab-item" for="tab-basic">Basic</label>
+                <input id="tab-greek" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-greek">Greek</label>
+                <input id="tab-accent" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-accent">Accent</label>
+                <input id="tab-arrow" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-arrow">Arrow</label>
+                <input id="tab-set" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-set">Set</label>
+                <input id="tab-matrix" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-matrix">Matrix</label>
+                <input id="tab-analysis" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-analysis">Analysis</label>
+                <input id="tab-quantum" type="radio" name="tab-item">
+                <label class="tab-item" for="tab-quantum">Quantum</label>
+                <br>
+                <div class="panel-area">
+                    <!-- Basic -->
+                    <div id="panel-basic" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/pm.png" id="pm-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\pm')" alt="pm" title="\pm">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/mp.png" id="mp-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\mp')" alt="mp" title="\mp">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/times.png" id="times-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\times')" alt="times" title="\times">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/div.png" id="div-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\div')" alt="div" title="\div">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/oplus.png" id="oplus-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\oplus')" alt="oplus" title="\oplus">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/otimes.png" id="otimes-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\otimes')" alt="otimes" title="\otimes">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/infinity.png" id="infinity-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\infty')" alt="infinity" title="\infty">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/forall.png" id="forall-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\forall')" alt="forall" title="\forall">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/exists.png" id="exists-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\exists')" alt="exists" title="\exists">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/abs.png" id="abs-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left| a \\right|')" alt="abs" title="\left| a \right|">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/norm.png" id="norm-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left\\| a \\right\\|')" alt="norm"
+                                    title="\left\| a \right\|">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/floor.png" id="floor-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left\\lfloor a \\right\\rfloor')" alt="floor"
+                                    title="\left\lfloor a \right\rfloor">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ceil.png" id="ceil-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left\\lceil a \\right\\rceil')" alt="ceil"
+                                    title="\left\lceil a \right\rceil">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/angle.png" id="angle-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left\\langle a \\right\\rangle')" alt="angle"
+                                    title="\left\langle a \right\rangle">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/lesser.png" id="lesser-btn" class="cpn-btn"
+                                    onclick="insertFomula('<')" alt="lesser" title="<">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/greater.png" id="greater-btn" class="cpn-btn"
+                                    onclick="insertFomula('>')" alt="greater" title=">">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/leq.png" id="leq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\leq')" alt="leq" title="\leq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/geq.png" id="geq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\geq')" alt="geq" title="\geq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ll.png" id="ll-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\ll')" alt="ll" title="\ll">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/gg.png" id="gg-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\gg')" alt="gg" title="\gg">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/sim.png" id="sim-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\sim')" alt="sim" title="\sim">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/simeq.png" id="simeq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\simeq')" alt="simeq" title="\simeq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/asymp.png" id="asymp-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\asymp')" alt="asymp" title="\asymp">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/approx.png" id="approx-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\approx')" alt="approx" title="\approx">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/equiv.png" id="equiv-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\equiv')" alt="equiv" title="\equiv">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/cong.png" id="cong-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\cong')" alt="cong" title="\cong">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/neq.png" id="neq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\neq')" alt="neq" title="\neq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/doteq.png" id="doteq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\doteq')" alt="doteq" title="\doteq">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/frac.png" id="frac-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\frac{x}{y}')" alt="frac" title="\frac{x}{y}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/sqrt.png" id="sqrt-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\sqrt{x}')" alt="sqrt" title="\sqrt{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nsqrt.png" id="nsqrt-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\sqrt[n]{x}')" alt="nsqrt" title="\sqrt[n]{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/index.png" id="index-btn" class="cpn-btn"
+                                    onclick="insertFomula('x_{i}')" alt="index" title="x_i">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/power.png" id="power-btn" class="cpn-btn"
+                                    onclick="insertFomula('x^{n}')" alt="power" title="x^n">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/log.png" id="log-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\log_{10}')" alt="log" title="\log_{10}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ln.png" id="ln-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\ln')" alt="ln" title="\ln">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/mixed_tensor.png" id="mixed_tensor-btn" class="cpn-btn"
+                                    onclick="insertFomula('A_{i}^{j}')" alt="mixed_tensor" title="A_{i}^{j}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/conv.png" id="conv-btn" class="cpn-btn"
+                                    onclick="insertFomula('{}_{n}C_{k}')" alt="conv" title="{}_{n}C_{k}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/max.png" id="max-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\max_{x}')" alt="max" title="\max_{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/cases.png" id="cases-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{cases} a & case1 \\\\ b & case2 \\end{cases}')"
+                                    alt="cases" title="\begin{cases} a & case1 \\ b & case2 \end{cases}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/parentheses.png" id="parentheses-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left( \\right)')" alt="parentheses" title="\left( \right)">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/braces.png" id="braces-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left\\{ \\right\\}')" alt="braces"
+                                    title="\left\{ \right\}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/square_brackets.png" id="square_brackets-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\left[ \\right]')" alt="square_brackets"
+                                    title="\left[ \right]">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/array.png" id="array-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\left( \\begin{array}{} a \\\\ b \\\\ \\end{array} \\right)')"
+                                    alt="array" title="\left( \begin{array}{} a \\ b \\ \end{array} \right)">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/sum.png" id="sum-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\sum_{i}^{}')" alt="sum" title="\sum_{i}^{}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/prod.png" id="prod-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\prod_{i}^{}')" alt="prod" title="\prod_{i}^{}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Greek -->
+                    <div id="panel-greek" class="tab-panel">
+                        <!-- lower case -->
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/alpha.png" id="alpha-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\alpha')" alt="alpha" title="\alpha">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/beta.png" id="beta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\beta')" alt="beta" title="\beta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/gamma.png" id="gamma-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\gamma')" alt="gamma" title="\gamma">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/delta.png" id="delta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\delta')" alt="delta" title="\delta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/epsilon.png" id="epsilon-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\epsilon')" alt="epsilon" title="\epsilon">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/varepsilon.png" id="varepsilon-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\varepsilon')" alt="varepsilon" title="\varepsilon">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/zeta.png" id="zeta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\zeta')" alt="zeta" title="\zeta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/eta.png" id="eta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\eta')" alt="eta" title="\eta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/theta.png" id="theta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\theta')" alt="theta" title="\theta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/vartheta.png" id="vartheta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\vartheta')" alt="vartheta" title="\vartheta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/iota.png" id="iota-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\iota')" alt="iota" title="\iota">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/kappa.png" id="kappa-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\kappa')" alt="kappa" title="\kappa">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/lambda.png" id="lambda-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\lambda')" alt="lambda" title="\lambda">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/mu.png" id="mu-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\mu')" alt="mu" title="\mu">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nu.png" id="nu-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\nu')" alt="nu" title="\nu">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/xi.png" id="xi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\xi')" alt="xi" title="\xi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/o.png" id="o-btn" class="cpn-btn"
+                                    onclick="insertFomula(' o')" alt="o" title="o">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/pi.png" id="pi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\pi')" alt="pi" title="\pi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/varpi.png" id="varpi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\varpi')" alt="varpi" title="\varpi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/rho.png" id="rho-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\rho')" alt="rho" title="\rho">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/varrho.png" id="varrho-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\varrho')" alt="varrho" title="\varrho">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/sigma.png" id="sigma-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\sigma')" alt="sigma" title="\sigma">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/varsigma.png" id="varsigma-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\varsigma')" alt="varsigma" title="\varsigma">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/tau.png" id="tau-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\tau')" alt="tau" title="\tau">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/upsilon.png" id="upsilon-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\upsilon')" alt="upsilon" title="\upsilon">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/phi.png" id="phi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\phi')" alt="phi" title="\phi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/varphi.png" id="varphi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\varphi')" alt="varphi" title="\varphi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/chi.png" id="chi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\chi')" alt="chi" title="\chi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/psi.png" id="psi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\psi')" alt="psi" title="\psi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/omega.png" id="omega-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\omega')" alt="omega" title="\omega">
+                            </div>
+                        </div>
+
+                        <!-- Uppercase -->
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_gamma.png" id="Gamma-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Gamma')" alt="Gamma" title="\Gamma">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_delta.png" id="Delta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Delta')" alt="Delta" title="\Delta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_theta.png" id="Theta-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Theta')" alt="Theta" title="\Theta">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_lambda.png" id="Lambda-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Lambda')" alt="Lambda" title="\Lambda">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_xi.png" id="Xi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Xi')" alt="Xi" title="\Xi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_pi.png" id="Pi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Pi')" alt="Pi" title="\Pi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_sigma.png" id="Sigma-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Sigma')" alt="Sigma" title="\Sigma">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_upsilon.png" id="Upsilon-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Upsilon')" alt="Upsilon" title="\Upsilon">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_phi.png" id="Phi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Phi')" alt="Phi" title="\Phi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_psi.png" id="Psi-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Psi')" alt="Psi" title="\Psi">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_omega.png" id="Omega-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Omega')" alt="Omega" title="\Omega">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accent -->
+                    <div id="panel-accent" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/hat.png" id="hat-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\hat{x}')" alt="hat" title="\hat{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/check.png" id="check-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\check{x}')" alt="check" title="\check{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/breve.png" id="breve-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\breve{x}')" alt="breve" title="\breve{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/acute.png" id="acute-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\acute{x}')" alt="acute" title="\acute{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/grave.png" id="grave-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\grave{x}')" alt="grave" title="\grave{x}">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/tilde.png" id="tilde-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\tilde{x}')" alt="tilde" title="\tilde{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bar.png" id="bar-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\bar{x}')" alt="bar" title="\bar{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/vec.png" id="vec-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\vec{x}')" alt="vec" title="\vec{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/dot.png" id="dot-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\dot{x}')" alt="dot" title="\dot{x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ddot.png" id="ddot-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\ddot{x}')" alt="ddot" title="\ddot{x}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/overline.png" id="overline-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\overline{xy}')" alt="overline" title="\overline{xy}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/underline.png" id="underline-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\underline{xy}')" alt="underline" title="\underline{xy}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/widehat.png" id="widehat-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\widehat{xy}')" alt="widehat" title="\widehat{xy}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/widetilde.png" id="widetilde-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\widetilde{xy}')" alt="widetilde" title="\widetilde{xy}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/overbrace.png" id="overbrace-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\overbrace{xy}')" alt="overbrace" title="\overbrace{xy}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/underbrace.png" id="underbrace-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\underbrace{xy}')" alt="underbrace" title="\underbrace{xy}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/overrightarrow.png" id="overrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\overrightarrow{AB}')" alt="overrightarrow"
+                                    title="\overrightarrow{AB}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/overleftarrow.png" id="overleftarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\overleftarrow{AB}')" alt="overleftarrow"
+                                    title="\overleftarrow{AB}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Arrow -->
+                    <div id="panel-arrow" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/leftarrow.png" id="leftarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\leftarrow')" alt="leftarrow" title="\leftarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/rightarrow.png" id="rightarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\rightarrow')" alt="rightarrow" title="\rightarrow">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_leftarrow.png" id="Leftarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Leftarrow')" alt="Leftarrow" title="\Leftarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_rightarrow.png" id="Rightarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Rightarrow')" alt="Rightarrow" title="\Rightarrow">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/leftrightarrow.png" id="leftrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\leftrightarrow')" alt="leftrightarrow"
+                                    title="\leftrightarrow">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_leftrightarrow.png" id="Leftrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\Leftrightarrow')" alt="Leftrightarrow"
+                                    title="\Leftrightarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/mapsto.png" id="mapsto-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\mapsto')" alt="mapsto" title="\mapsto">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/hookleftarrow.png" id="hookleftarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\hookleftarrow')" alt="hookleftarrow"
+                                    title="\hookleftarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/hookrightarrow.png" id="hookrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\hookrightarrow')" alt="hookrightarrow"
+                                    title="\hookrightarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/leftharpoonup.png" id="leftharpoonup-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\leftharpoonup')" alt="leftharpoonup"
+                                    title="\leftharpoonup">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/rightharpoonup.png" id="rightharpoonup-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\rightharpoonup')" alt="rightharpoonup"
+                                    title="\rightharpoonup">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/leftharpoondown.png" id="leftharpoondown-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\leftharpoondown')" alt="leftharpoondown"
+                                    title="\leftharpoondown">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/rightharpoondown.png" id="rightharpoondown-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\rightharpoondown')" alt="rightharpoondown"
+                                    title="\rightharpoondown">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/rightleftharpoons.png" id="rightleftharpoons-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\rightleftharpoons')"
+                                    alt="rightleftharpoons" title="\rightleftharpoons">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/longleftarrow.png" id="longleftarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\longleftarrow')" alt="longleftarrow"
+                                    title="\longleftarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/longrightarrow.png" id="longrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\longrightarrow')" alt="longrightarrow"
+                                    title="\longrightarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_longleftarrow.png" id="Longleftarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\Longleftarrow')" alt="Longleftarrow"
+                                    title="\Longleftarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_longrightarrow.png" id="Longrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\Longrightarrow')" alt="Longrightarrow"
+                                    title="\Longrightarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/longleftrightarrow.png" id="longleftrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\longleftrightarrow')"
+                                    alt="longleftrightarrow" title="\longleftrightarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_longleftrightarrow.png" id="Longleftrightarrow-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\Longleftrightarrow')"
+                                    alt="Longleftrightarrow" title="\Longleftrightarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/longmapsto.png" id="longmapsto-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\longmapsto')" alt="longmapsto" title="\longmapsto">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nearrow.png" id="nearrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\nearrow')" alt="nearrow" title="\nearrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/searrow.png" id="searrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\searrow')" alt="searrow" title="\searrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/swarrow.png" id="swarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\swarrow')" alt="swarrow" title="\swarrow">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nwarrow.png" id="nwarrow-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\nwarrow')" alt="nwarrow" title="\nwarrow">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Set -->
+                    <div id="panel-set" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/emptyset.png" id="emptyset-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\emptyset')" alt="emptyset" title="\emptyset">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/in.png" id="in-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\in')" alt="in" title="\in">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ni.png" id="ni-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\ni')" alt="ni" title="\ni">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/notin.png" id="notin-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\notin')" alt="notin" title="\notin">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/subset.png" id="subset-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\subset')" alt="subset" title="\subset">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/supset.png" id="supset-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\supset')" alt="supset" title="\supset">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/subseteq.png" id="subseteq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\subseteq')" alt="subseteq" title="\subseteq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/supseteq.png" id="supseteq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\supseteq')" alt="supseteq" title="\supseteq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/subsetneq.png" id="subsetneq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\subsetneq')" alt="subsetneq" title="\subsetneq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/supsetneq.png" id="supsetneq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\supsetneq')" alt="supsetneq" title="\supsetneq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nsubseteq.png" id="nsubseteq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\nsubseteq')" alt="nsubseteq" title="\nsubseteq">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nsupseteq.png" id="nsupseteq-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\nsupseteq')" alt="nsupseteq" title="\nsupseteq">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/cup.png" id="cup-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\cup')" alt="cup" title="\cup">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/cap.png" id="cap-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\cap')" alt="cap" title="\cap">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bigcup.png" id="bigcup-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\bigcup_{k}')" alt="bigcup" title="\bigcup_{k}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bigcap.png" id="bigcap-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\bigcap_{k}')" alt="bigcap" title="\bigcap_{k}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/propto.png" id="propto-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\propto')" alt="propto" title="\propto">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/lnot.png" id="lnot-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\lnot')" alt="lnot" title="\lnot">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/lor.png" id="lor-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\lor')" alt="lor" title="\lor">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/land.png" id="land-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\land')" alt="land" title="\land">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bigvee.png" id="bigvee-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\bigvee_{k}')" alt="bigvee" title="\bigvee_{k}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bigwedge.png" id="bigwedge-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\bigwedge_{k}')" alt="bigwedge" title="\bigwedge_{k}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Matrix -->
+                    <div id="panel-matrix" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/matrix.png" id="matrix-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{matrix} a & b \\\\ c & d \\\\ \\end{matrix}')"
+                                    alt="matrix" title="\begin{matrix} a & b \\ c & d \\ \end{matrix}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/pmatrix.png" id="pmatrix-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{pmatrix} a & b \\\\ c & d \\\\ \\end{pmatrix}')"
+                                    alt="pmatrix" title="\begin{pmatrix} a & b \\ c & d \\ \end{pmatrix}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bmatrix.png" id="bmatrix-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{bmatrix} a & b \\\\ c & d \\\\ \\end{bmatrix}')"
+                                    alt="bmatrix" title="\begin{bmatrix} a & b \\ c & d \\ \end{bmatrix}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/vmatrix.png" id="vmatrix-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{vmatrix} a & b \\\\ c & d \\\\ \\end{vmatrix}')"
+                                    alt="vmatrix" title="\begin{vmatrix} a & b \\ c & d \\ \end{vmatrix}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/Cap_vmatrix.png" id="Vmatrix-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{Vmatrix} a & b \\\\ c & d \\\\ \\end{Vmatrix}')"
+                                    alt="Vmatrix" title="\begin{Vmatrix} a & b \\ c & d \\ \end{Vmatrix}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/pmatrix_dots.png" id="pmatrix_dots-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\begin{pmatrix}\n a_{11} & a_{12} & \\ldots & a_{1n} \\\\\n a_{21} & a_{22} & \\ldots & a_{2n} \\\\\n \\vdots & \\vdots & \\ddots & \\vdots \\\\\n a_{m1} & a_{m2} & \\ldots & a_{mn}\n \\end{pmatrix}\n')"
+                                    alt="pmatrix_dots"
+                                    title="\begin{pmatrix} a_{11} & a_{12} & \ldots & a_{1n} \\ a_{21} & a_{22} & \ldots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \ldots & a_{mn} \end{pmatrix}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/diagonal_pmatrix.png" id="diagonal_pmatrix-btn"
+                                    class="cpn-btn"
+                                    onclick="insertFomula('\\begin{pmatrix}\n \\lambda_1 & & & & \\\\\n & \\lambda_2 & & \\Huge{0} & \\\\\n & & \\ddots & & \\\\\n & \\Huge{0} & & \\lambda_{n-1} & \\\\\n & & & & \\lambda_n \\end{pmatrix}\n')"
+                                    alt="diagonal_pmatrix"
+                                    title="\begin{pmatrix} \lambda_1 & & & & \\ & \lambda_2 & & \Huge{0} & \\ & & \ddots & & \\ & \Huge{0} & & \lambda_{n-1} & \\ & & & & \lambda_n \end{pmatrix}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Analysis -->
+                    <div id="panel-analysis" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/limit.png" id="limit-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\lim_{x \\to a}')" alt="limit" title="\lim_{x \to a}">
+                            </div>
+
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/prime.png" id="prime-btn" class="cpn-btn"
+                                    onclick="insertFomula('f\'')" alt="prime" title="f'">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/differentiation.png" id="differentiation-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\frac{d f}{d x}')" alt="differentiation"
+                                    title="\frac{d f}{d x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/partial.png" id="partial-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\frac{\\partial f}{\\partial x}')" alt="partial"
+                                    title="\frac{\partial f}{\partial x}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/npartial.png" id="npartial-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\frac{\\partial ^n f}{\\partial x^n}')" alt="npartial"
+                                    title="\frac{\partial ^n f}{\partial x^n}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/nabla.png" id="nabla-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\nabla')" alt="nabla" title="\nabla">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/integral.png" id="integral-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\int_{}^{}')" alt="integral" title="\int_{}^{}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/double_integral.png" id="double_integral-btn"
+                                    class="cpn-btn" onclick="insertFomula('\\iint_{D}')" alt="double_integral"
+                                    title="\iint_{D}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ointegral.png" id="ointegral-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\oint_{C}')" alt="ointegral" title="\oint_{C}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Quantum -->
+                    <div id="panel-quantum" class="tab-panel">
+                        <div class="row">
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/hbar.png" id="hbar-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\hbar')" alt="hbar" title="\hbar">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/bra.png" id="bra-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\bra{a}')" alt="bra" title="\bra{a}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/ket.png" id="ket-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\ket{a}')" alt="ket" title="\ket{a}">
+                            </div>
+                            <div class="cpn-box">
+                                <input type="image" src="static/images/braket.png" id="braket-btn" class="cpn-btn"
+                                    onclick="insertFomula('\\Braket{a|b}')" alt="braket" title="\Braket{a|b}">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div id="style-input">
+                <p>
+                    <span class="cursor-pointer" onclick="insertFomula('\\mathrm{A}')"> $\mathrm{A}$ Roman</span>,
+                    <span class="cursor-pointer" onclick="insertFomula('\\mathbb{A}')"> $\mathbb{A}$ Outline</span>,
+                    <span class="cursor-pointer" onclick="insertFomula('\\mathscr{A}')"> $\mathscr{A}$ Ornate</span>,
+                    <span class="cursor-pointer" onclick="insertFomula('\\mathcal{A}')"> $\mathcal{A}$ Cursive</span>,
+                    <span class="cursor-pointer" onclick="insertFomula('\\mathfrak{A}')"> $\mathfrak{A}$ German</span>
+                </p>
+            </div>
+            <div id="input-field" lang="en">
+                <!-- Textarea -->
+                <textarea id="fomula-input" style="height:200px; width:500px"></textarea>
+                <button id="clear-btn">Clear</button>
+            </div>
+            <div id="output-field">
+                <!-- Output -->
+                <div id="fomula-output"></div>
+            </div>
+            <div id="image-download-form">
+                <div id="image-download-input-form" class="input-form">
+                    <div id="fontsize">
+                        <label>Font size</label>
+                        <input type="text" id="fontsize-input" name="fontsize" value="48">
+                    </div>
+                    <div id="format">
+                        <label>Format</label>
+                        <select id="format-select">
+                            <option value="png">PNG</option>
+                            <option value="jpg">JPG</option>
+                        </select>
+                    </div>
+                    <!-- <label>Width</label>
+                    <input type="text" id="width-input" value="100">
+                    <label>Height</label>
+                    <input type="text" id="height-input" value="100"> -->
+                </div>
+                <div id="image-download">
+                    <button id="img-download-btn" class="cursor-pointer"><i class="fas fa-download"></i>  Download</button>
+                    <!-- <button id="img-resize">Resize download</button> -->
+                </div>
+            </div>
+            <div class="clone-elem">
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+    <script>
+        // Insert str at the caret
+        function insertAtCaret(target, str) {
+            let obj = $(target);
+            obj.focus();
+            if (navigator.userAgent.match(/MSIE/)) {
+                let range = document.selection.createRange();
+                range.text = str;
+                range.select();
+            } else {
+                let text = obj.val();
+                const pos = obj.get(0).selectionStart;
+                const endPos = pos + str.length;
+                obj.val(text.substr(0, pos) + str + text.substr(pos));
+                obj.get(0).setSelectionRange(endPos, endPos);
+            }
+        }
+
+        // Insert fomula in textarea
+        function insertFomula(str) {
+            str = " " + str + " ";
+            insertAtCaret("#fomula-input", str);
+            $("#fomula-input").trigger("input");
+        }
+
+
+        // Convert input fomula
+        $("#fomula-input").on("input propertychange", function () {
+            const fomula = $("#fomula-input").val();
+            $("#fomula-output").html("$$" + fomula + "$$");
+            MathJax.typesetPromise();
+
+            if ($("#fomula-output").find(".MathJax").length != 0 && $("#fomula-output").find("mjx-merror").length == 0) {
+                $("#fomula-output").show();
+                $("#fomula-output").trigger("change");
+            } else {
+                $("#fomula-output").hide();
+            }
+        })
+
+        // Clear input
+        $("#clear-btn").on("click", function () {
+            $("#fomula-input").val("");
+            $("#fomula-input").trigger("input");
+        })
+
+
+        // Export an image of output fomula
+        $("#img-download-btn").on("click", function () {
+            // When the output is empty
+            if ($("div#fomula-output defs").is(":empty")) {
+                return
+            }
+            const fontSize = $("#fontsize-input").val();
+            const format = $("#format-select").val();
+
+            // Clone the element and set the font size
+            $(".clone-elem").append($("div#fomula-output svg")[0].cloneNode(true));
+            let cloneElem = $(".clone-elem svg")[0];
+            cloneElem.style.fontSize = fontSize;
+
+            // Imaging the cloned element
+            html2canvas(cloneElem).then(canvas => {
+                const imgData = canvas.toDataURL();
+                const a = document.createElement("a");
+                document.body.appendChild(a);
+                a.download = "TeXimg." + format;
+                a.href = imgData;
+                a.click();
+                a.remove();
+
+            })
+            cloneElem.remove();
+        })
+
+
+        // Centering imaging
+        $("#img-resize").on("click", function () {
+            const rWidth = $("#width-input").val();
+            const rHeight = $("#height-input").val();
+            const fontSize = $("#fontsize-input").val();
+
+            const rect = $("div#fomula-output svg")[0].getBoundingClientRect();
+
+            const wScale = rWidth / rect.width;
+            const hScale = rHeight / rect.height;
+
+            const scale = Math.min(wScale, hScale);
+
+            $(".clone-elem").append($("div#fomula-output svg")[0].cloneNode(true));
+            let cloneElem = $(".clone-elem svg")[0];
+            // cloneElem.style.transform = "scale(" + scale + ")";
+            cloneElem.style.fontSize = fontSize;
+
+            html2canvas(cloneElem).then(canvas => {
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const img = document.createElement("img");
+                    img.src = url;
+                    img.addEventListener("load", function () {
+                        URL.revokeObjectURL(url);
+
+                        let newCanvas = document.createElement("canvas");
+                        let context = newCanvas.getContext("2d");
+                        newCanvas.width = rWidth;
+                        newCanvas.height = rHeight;
+
+                        context.fillStyle = "#FFFFFF";
+                        context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+                        context.drawImage(img, newCanvas.width / 2 - canvas.width / 2, newCanvas.height / 2 - canvas.height / 2);
+
+                        const newImgData = newCanvas.toDataURL();
+
+                        const a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.download = "TeXimg.png";
+                        a.href = newImgData;
+                        a.click();
+                        a.remove();
+                    })
+                })
+            })
+            cloneElem.remove();
+
+        })
+
+    </script>
+</body>
+
+</html>
